@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mky/drower.dart';
+import 'package:mky/drawer.dart';
+import 'package:mky/setting_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(),
+      initialRoute: "/",
+      routes: {
+        '/': (context) => const MyHomePage(),
+        '/setting': (context) => const SettingPage()
+      },
     );
   }
 }
