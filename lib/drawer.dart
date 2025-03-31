@@ -40,7 +40,7 @@ class MyDrawer extends StatelessWidget {
               }
           ),
           ListTile(
-              leading: const Icon(Icons.settings),
+              leading: const Icon(Icons.info),
               title: const Text('Popup page'),
               onTap: () {
                 Navigator.pushNamed(
@@ -49,7 +49,7 @@ class MyDrawer extends StatelessWidget {
               }
           ),
           ListTile(
-              leading: const Icon(Icons.settings),
+              leading: const Icon(Icons.account_box),
               title: const Text('Flexible 예제'),
               onTap: () {
                 Navigator.pushNamed(
@@ -58,11 +58,20 @@ class MyDrawer extends StatelessWidget {
               }
           ),
           ListTile(
-              leading: const Icon(Icons.settings),
+              leading: const Icon(Icons.image),
               title: const Text('image 예제'),
               onTap: () {
                 Navigator.pushNamed(
                     context, "/image"
+                );
+              }
+          ),
+          ListTile(
+              leading: const Icon(Icons.smart_button),
+              title: const Text('button 예제'),
+              onTap: () {
+                Navigator.pushNamed(
+                    context, "/button"
                 );
               }
           )
