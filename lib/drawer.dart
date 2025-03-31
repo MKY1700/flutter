@@ -41,7 +41,16 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('설정'),
+              title: const Text('Popup page'),
+              onTap: () {
+                Navigator.pushNamed(
+                    context, "/popup"
+                );
+              }
+          ),
+          ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Flexible 예제'),
               onTap: () {
                 Navigator.pushNamed(
                     context, "/flex"
