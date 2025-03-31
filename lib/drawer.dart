@@ -44,16 +44,16 @@ class MyDrawer extends StatelessWidget {
               title: const Text('설정'),
               onTap: () {
                 Navigator.pushNamed(
-                    context, "/setting"
+                    context, "/flex"
                 );
               }
           ),
           ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('설정'),
+              title: const Text('image 예제'),
               onTap: () {
                 Navigator.pushNamed(
-                    context, "/flex"
+                    context, "/image"
                 );
               }
           )
