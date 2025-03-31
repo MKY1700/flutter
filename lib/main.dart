@@ -3,6 +3,7 @@ import 'package:mky/button_page.dart';
 import 'package:mky/drawer.dart';
 import 'package:mky/flex_page.dart';
 import 'package:mky/image_page.dart';
+import 'package:mky/input_page.dart';
 import 'package:mky/layout_page.dart';
 import 'package:mky/popup_page.dart';
 import 'package:mky/setting_page.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/flex': (context) => const FlexPage(),
         '/image': (context) => const ImagePage(),
         '/button': (context) => const ButtonPage(),
+        '/input': (context) => const InputPage(),
       },
     );
   }
