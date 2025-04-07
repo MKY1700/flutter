@@ -8,6 +8,8 @@ import 'package:mky/layout_page.dart';
 import 'package:mky/popup_page.dart';
 import 'package:mky/setting_page.dart';
 
+import 'list_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/image': (context) => const ImagePage(),
         '/button': (context) => const ButtonPage(),
         '/input': (context) => const InputPage(),
+        '/list': (context) => const ListPage(),
       },
     );
   }
