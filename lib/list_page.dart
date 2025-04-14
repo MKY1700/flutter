@@ -11,9 +11,9 @@ class _ListPageState extends State<ListPage> {
   List<String> fruits = [];
   final TextEditingController _controller = TextEditingController();
 
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadFruits();
   }
@@ -27,7 +27,6 @@ class _ListPageState extends State<ListPage> {
       });
     }
   }
-
   void _saveFruits() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList("fruits", fruits);
@@ -37,7 +36,7 @@ class _ListPageState extends State<ListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("List 예제"),
+          title: const Text("LIst 예제"),
         ),
         body: Column(
           children: [
@@ -49,18 +48,19 @@ class _ListPageState extends State<ListPage> {
                       child: TextField(
                         controller: _controller,
                         decoration: const InputDecoration(
-                            hintText: "아이템 입력", border: OutlineInputBorder()
+                            hintText: "아이템 입력",
+                            border: OutlineInputBorder()
                         ),
-                          onSubmitted: (value) {
-                            final text = value.trim();
-                            if (text.isNotEmpty) {
-                              setState(() {
-                                fruits.add(text);
-                                _controller.clear();
-                              });
-                              _saveFruits();
-                            }
+                        onSubmitted: (value) {
+                          final text = value.trim();
+                          if (text.isNotEmpty) {
+                            setState(() {
+                              fruits.add(text);
+                              _controller.clear();
+                            });
+                            _saveFruits();
                           }
+                        },
                       )
                   ),
                   const SizedBox(width: 10),
@@ -74,6 +74,7 @@ class _ListPageState extends State<ListPage> {
                           });
                           _saveFruits();
                         }
+
                       },
                       child: const Text("추가")
                   )
@@ -95,7 +96,6 @@ class _ListPageState extends State<ListPage> {
                         showDialog(
                             context: context,
                             builder: (context) {
-
                               return AlertDialog(
                                 title: const Text("아이템수정"),
                                 content: TextField(
@@ -126,16 +126,19 @@ class _ListPageState extends State<ListPage> {
                               );
                             }
                         );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('${fruits[index]}를 선택했어요!'))
+                        );
                       },
                       onLongPress: () {
                         final deletedItem = fruits[index];
                         setState(() {
                           fruits.removeAt(index);
                         });
-                        _saveFruits();
 
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('$deletedItem를 삭제함!')));
+                            content: Text('$deletedItem를 삭제함!')
+                        ));
                       },
                     );
                   }

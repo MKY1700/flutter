@@ -19,19 +19,19 @@ class _ButtonPageState extends State<ButtonPage> {
           children: [
             Center(
               child: ElevatedButton(
-                onPressed: () => print("Elevated Button"),
-                child: const Text("Elevated버튼")
+                  onPressed: ()=> print("Elevated Button"), 
+                  child: const Text("Elevated버튼")
               ),
             ),
             Center(
               child: TextButton(
-                  onPressed: () => print("text Button"),
+                  onPressed: ()=> print("Text Button"),
                   child: const Text("Text버튼")
               ),
             ),
             Center(
               child: OutlinedButton(
-                  onPressed: () => print("outline Button"),
+                  onPressed: ()=> print("outline Button"),
                   child: const Text("outline버튼")
               ),
             )
