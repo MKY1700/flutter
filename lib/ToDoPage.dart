@@ -30,12 +30,16 @@ class _TodoPageState extends State<TodoPage> {
     }
   }
 
-  void _saveTodos() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('todos', todos);
-  }
+  void _deleteTodo(int index) async {
+    final removed = todos[index];
+    setState(() {
+      todos.removeAt(index);
+    });
+    _saveTodos();
 
-
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('${removed} 삭제됨'))
+    );
 
   void _addTodo(String text) {
     if (text.trim().isEmpty) return;
@@ -98,6 +102,7 @@ class _TodoPageState extends State<TodoPage> {
                       ),
                       child: ListTile(
                         title: Text(todos[index]),
+                        onLongPress: () => _deleteTodo(index),
                       ),
                     );
                   }
