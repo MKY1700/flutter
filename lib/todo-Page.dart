@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:hello/drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TodoPage extends StatefulWidget {
@@ -10,43 +13,57 @@ class TodoPage extends StatefulWidget {
 
 class _TodoPageState extends State<TodoPage> {
 
-  final List<String> todos = [];
+  List<Map<String, dynamic>> todos = [];
   final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadTodos();
-
   }
 
-  void _loadTodos() async {
+  void _loadTodos() async{
     final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getStringList("todos");
-    if(saved != null){
+    final saved = prefs.getString('todos');
+    if (saved != null){
+      final decoded = jsonDecode(saved) as List;
+
       setState(() {
-        todos.addAll(saved);
+        todos = decoded.cast<Map<String, dynamic>>();
       });
     }
   }
 
-  void _deleteTodo(int index) async {
-    final removed = todos[index];
+  void _saveTodos() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('todos', jsonEncode(todos));
+  }
+
+  void _addTodo(String text){
+    if (text.trim().isEmpty) return;
+
+    setState(() {
+      todos.add({"text":text.trim(), "done": false});
+      _controller.clear();
+    });
+    _saveTodos();
+  }
+
+  void _deleteTodo(int index) async{
+    final removed = todos[index]['text'];
     setState(() {
       todos.removeAt(index);
     });
     _saveTodos();
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${removed} 삭제됨'))
+        SnackBar(content: Text("${removed} 삭제됨"))
     );
+  }
 
-  void _addTodo(String text) {
-    if (text.trim().isEmpty) return;
-
+  void _togleDone(int index, bool? value){
     setState(() {
-      todos.add(text.trim());
-      _controller.clear();
+      todos[index]['done'] = value ?? false;
     });
     _saveTodos();
   }
@@ -57,6 +74,7 @@ class _TodoPageState extends State<TodoPage> {
       appBar: AppBar(
         title: const Text("To Do 앱"),
       ),
+      drawer: const MyDrawer(),
       body: Column(
         children: [
           Padding(
@@ -64,16 +82,15 @@ class _TodoPageState extends State<TodoPage> {
             child: Row(
               children: [
                 Expanded(
-
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
-                          hintText: "할 일을 입력하세요.",
+                          hintText: "할 일을 입력하세요",
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30)
+                              borderRadius: BorderRadius.circular(10)
                           ),
                           filled: true,
-                          fillColor: Colors.grey[100]
+                          fillColor: Colors.pink[50]
                       ),
                     )
                 ),
@@ -91,24 +108,29 @@ class _TodoPageState extends State<TodoPage> {
           ),
           Expanded(
               child: todos.isEmpty
-                  ? const Center(child: Text('할 일이 없습니다.'))
+                  ? const Center(child: Text("할 일이 없습니다."))
                   : ListView.builder(
                   itemCount: todos.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (context, index){
+                    final todo = todos[index];
+
                     return Card(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 4
                       ),
                       child: ListTile(
-                        title: Text(todos[index]),
+                        leading: Checkbox(
+                          value: todo['done'],
+                          onChanged: (value) => _togleDone(index, value),
+                        ),
+                        title: Text(todo['text']),
                         onLongPress: () => _deleteTodo(index),
                       ),
                     );
                   }
-
               )
-          ),
+          )
         ],
       ),
     );
